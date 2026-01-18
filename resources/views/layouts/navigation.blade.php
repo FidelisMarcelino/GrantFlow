@@ -13,23 +13,43 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('dashboard.title') }}
                     </x-nav-link>
                 </div>
-                
+
                 @if (Auth::user()->role === 'dosen')
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('proposal.index')" :active="request()->routeIs('proposal.index')">
-                            {{ __('Proposal Saya') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('proposal.index')" :active="request()->routeIs('proposal.index')">
+                        {{ __('dashboard.my_proposals') }}
+                    </x-nav-link>
+                </div>
                 @elseif (Auth::user()->role === 'reviewer')
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
-                            {{ __('Daftar Review') }}
-                        </x-nav-link>
-                    </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
+                        {{ __('Daftar Review') }}
+                    </x-nav-link>
+                </div>
                 @endif
+            </div>
+
+            <div class="me-4">
+                <x-dropdown align="right" width="32">
+                    <x-slot name="trigger">
+                        <button class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700">
+                            🌐 {{ strtoupper(app()->getLocale()) }}
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        <x-dropdown-link :href="route('locale.switch', 'id')">
+                            🇮🇩 Indonesia
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('locale.switch', 'en')">
+                            🇺🇸 English
+                        </x-dropdown-link>
+                    </x-slot>
+                </x-dropdown>
             </div>
 
             <!-- Settings Dropdown -->
@@ -57,7 +77,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -82,17 +102,17 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('dashboard.title') }}
             </x-responsive-nav-link>
-            
+
             @if (Auth::user()->role === 'dosen')
-                <x-responsive-nav-link :href="route('proposal.index')" :active="request()->routeIs('proposal.index')">
-                    {{ __('Proposal Saya') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('proposal.index')" :active="request()->routeIs('proposal.index')">
+                {{ __('Proposal Saya') }}
+            </x-responsive-nav-link>
             @elseif (Auth::user()->role === 'reviewer')
-                <x-responsive-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
-                    {{ __('Daftar Review') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('reviews.index')" :active="request()->routeIs('reviews.*')">
+                {{ __('Daftar Review') }}
+            </x-responsive-nav-link>
             @endif
         </div>
 
@@ -113,7 +133,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
